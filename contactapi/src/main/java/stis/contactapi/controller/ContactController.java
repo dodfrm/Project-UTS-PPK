@@ -124,8 +124,9 @@ public class ContactController {
                         @ApiResponse(responseCode = "404", description = "Contact not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Contact not found\"}")))
         })
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteContact(@PathVariable Long id) {
+        public ResponseEntity<String> deleteContact(@PathVariable Long id) {
                 boolean isDeleted = contactService.deleteContact(id);
-                return isDeleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+                return isDeleted ? ResponseEntity.ok("Contact deleted successfully")
+                                : ResponseEntity.notFound().build();
         }
 }

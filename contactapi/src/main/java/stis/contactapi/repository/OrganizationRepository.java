@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import stis.contactapi.entity.Organization;
 
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
-    @EntityGraph(attributePaths = { "contact", "organization", "contactOrganizations.contact" })
+    @EntityGraph(attributePaths = { "contactOrganizations.contactId" })
     Optional<Organization> findById(Long id);
 }

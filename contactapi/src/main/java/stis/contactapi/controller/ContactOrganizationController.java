@@ -105,8 +105,9 @@ public class ContactOrganizationController {
                         @ApiResponse(responseCode = "404", description = "Contact organizations not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Contact organizations not found\"}")))
         })
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteContactOrganization(@PathVariable Long id) {
+        public ResponseEntity<String> deleteContactOrganization(@PathVariable Long id) {
                 boolean deleted = contactOrganizationService.deleteContactOrganization(id);
-                return deleted ? ResponseEntity.noContent().build() : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return deleted ? ResponseEntity.ok("Contact organization deleted successfully")
+                                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 }

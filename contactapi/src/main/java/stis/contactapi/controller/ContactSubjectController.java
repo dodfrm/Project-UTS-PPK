@@ -94,9 +94,9 @@ public class ContactSubjectController {
                         @ApiResponse(responseCode = "404", description = "Contact Subject not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Contact Subject not found\"}")))
         })
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteContactSubject(@PathVariable Long id) {
+        public ResponseEntity<String> deleteContactSubject(@PathVariable Long id) {
                 if (contactSubjectService.deleteContactSubject(id)) {
-                        return ResponseEntity.noContent().build();
+                        return ResponseEntity.ok("Contact Subject deleted successfully");
                 } else {
                         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
                 }

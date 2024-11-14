@@ -46,9 +46,7 @@
   "paths": {
     "/user/change-password/{userId}": {
       "put": {
-        "tags": [
-          "Account"
-        ],
+        "tags": ["Account"],
         "summary": "Change user password.",
         "operationId": "changePassword",
         "parameters": [
@@ -73,19 +71,6 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Password changed successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "example": {
-                    "message": "Password changed successfully"
-                  }
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid password data provided",
             "content": {
@@ -112,6 +97,19 @@
               }
             }
           },
+          "200": {
+            "description": "Password changed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": {
+                    "message": "Password changed successfully"
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "User not found",
             "content": {
@@ -130,9 +128,7 @@
     },
     "/user-profile/{userId}": {
       "get": {
-        "tags": [
-          "Account"
-        ],
+        "tags": ["Account"],
         "summary": "Retrieve user profile by user ID.",
         "operationId": "getUserProfile",
         "parameters": [
@@ -147,16 +143,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "User profile retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              }
-            }
-          },
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -166,6 +152,16 @@
                   "example": {
                     "message": "Unauthorized"
                   }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "User profile retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
                 }
               }
             }
@@ -186,9 +182,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Account"
-        ],
+        "tags": ["Account"],
         "summary": "Update user profile information.",
         "operationId": "updateUserProfile",
         "parameters": [
@@ -219,16 +213,6 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "User profile updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid password data provided",
             "content": {
@@ -267,15 +251,23 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "User profile updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/subjects/{id}": {
       "get": {
-        "tags": [
-          "Subject"
-        ],
+        "tags": ["Subject"],
         "summary": "Get a subject by ID",
         "operationId": "getSubjectById",
         "parameters": [
@@ -290,16 +282,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Found the subject",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubjectDto"
-                }
-              }
-            }
-          },
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -325,13 +307,21 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Found the subject",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectDto"
+                }
+              }
+            }
           }
         }
       },
       "put": {
-        "tags": [
-          "Subject"
-        ],
+        "tags": ["Subject"],
         "summary": "Update an existing subject",
         "operationId": "updateSubject",
         "parameters": [
@@ -398,9 +388,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Subject"
-        ],
+        "tags": ["Subject"],
         "summary": "Delete a subject by ID",
         "operationId": "deleteSubject",
         "parameters": [
@@ -415,9 +403,6 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Subject deleted"
-          },
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -443,15 +428,16 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Subject deleted"
           }
         }
       }
     },
     "/api/organizations/{id}": {
       "get": {
-        "tags": [
-          "Organization"
-        ],
+        "tags": ["Organization"],
         "summary": "Get organization by ID",
         "operationId": "getOrganizationById",
         "parameters": [
@@ -466,12 +452,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Organization found",
+          "404": {
+            "description": "Organization not found",
             "content": {
-              "application/hal+json": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrganizationDto"
+                  "type": "string",
+                  "example": {
+                    "message": "Organization not found"
+                  }
                 }
               }
             }
@@ -489,15 +478,12 @@
               }
             }
           },
-          "404": {
-            "description": "Organization not found",
+          "200": {
+            "description": "Organization found",
             "content": {
-              "application/json": {
+              "application/hal+json": {
                 "schema": {
-                  "type": "string",
-                  "example": {
-                    "message": "Organization not found"
-                  }
+                  "$ref": "#/components/schemas/OrganizationDto"
                 }
               }
             }
@@ -505,9 +491,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Organization"
-        ],
+        "tags": ["Organization"],
         "summary": "Update an organization",
         "operationId": "updateOrganization",
         "parameters": [
@@ -535,12 +519,15 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Organization updated successfully",
+          "404": {
+            "description": "Organization not found",
             "content": {
-              "application/hal+json": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrganizationDto"
+                  "type": "string",
+                  "example": {
+                    "message": "Organization not found"
+                  }
                 }
               }
             }
@@ -558,15 +545,12 @@
               }
             }
           },
-          "404": {
-            "description": "Organization not found",
+          "200": {
+            "description": "Organization updated successfully",
             "content": {
-              "application/json": {
+              "application/hal+json": {
                 "schema": {
-                  "type": "string",
-                  "example": {
-                    "message": "Organization not found"
-                  }
+                  "$ref": "#/components/schemas/OrganizationDto"
                 }
               }
             }
@@ -574,9 +558,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Organization"
-        ],
+        "tags": ["Organization"],
         "summary": "Delete an organization",
         "operationId": "deleteOrganization",
         "parameters": [
@@ -591,8 +573,18 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Organization deleted successfully"
+          "404": {
+            "description": "Organization not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": {
+                    "message": "Organization not found"
+                  }
+                }
+              }
+            }
           },
           "403": {
             "description": "Unauthorized",
@@ -607,15 +599,12 @@
               }
             }
           },
-          "404": {
-            "description": "Organization not found",
+          "200": {
+            "description": "Organization deleted successfully",
             "content": {
-              "application/json": {
+              "application/hal+json": {
                 "schema": {
-                  "type": "string",
-                  "example": {
-                    "message": "Organization not found"
-                  }
+                  "type": "string"
                 }
               }
             }
@@ -625,9 +614,7 @@
     },
     "/api/contacts/{id}": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Get contact by ID",
         "operationId": "getContactById",
         "parameters": [
@@ -642,16 +629,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Contact found",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ContactDto"
-                }
-              }
-            }
-          },
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -677,13 +654,21 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Contact found",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactDto"
+                }
+              }
+            }
           }
         }
       },
       "put": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Update an existing contact",
         "operationId": "updateContact",
         "parameters": [
@@ -753,9 +738,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Delete a contact",
         "operationId": "deleteContact",
         "parameters": [
@@ -770,9 +753,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Contact deleted successfully"
-          },
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -798,15 +778,23 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Contact deleted successfully",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/contact-subjects/{id}": {
       "get": {
-        "tags": [
-          "Contact Subject"
-        ],
+        "tags": ["Contact Subject"],
         "summary": "Get a Contact Subject by ID",
         "operationId": "getContactSubjectById",
         "parameters": [
@@ -821,12 +809,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Found the Contact Subject",
+          "404": {
+            "description": "Contact Subject not found",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ContactSubjectDto"
+                  "type": "string",
+                  "example": {
+                    "message": "Contact Subject not found"
+                  }
                 }
               }
             }
@@ -844,15 +835,12 @@
               }
             }
           },
-          "404": {
-            "description": "Contact Subject not found",
+          "200": {
+            "description": "Found the Contact Subject",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "example": {
-                    "message": "Contact Subject not found"
-                  }
+                  "$ref": "#/components/schemas/ContactSubjectDto"
                 }
               }
             }
@@ -860,9 +848,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Contact Subject"
-        ],
+        "tags": ["Contact Subject"],
         "summary": "Update an existing Contact Subject",
         "operationId": "updateContactSubject",
         "parameters": [
@@ -891,12 +877,15 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Contact Subject updated",
+          "404": {
+            "description": "Contact Subject not found",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ContactSubjectDto"
+                  "type": "string",
+                  "example": {
+                    "message": "Contact Subject not found"
+                  }
                 }
               }
             }
@@ -914,15 +903,12 @@
               }
             }
           },
-          "404": {
-            "description": "Contact Subject not found",
+          "200": {
+            "description": "Contact Subject updated",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "example": {
-                    "message": "Contact Subject not found"
-                  }
+                  "$ref": "#/components/schemas/ContactSubjectDto"
                 }
               }
             }
@@ -930,9 +916,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Contact Subject"
-        ],
+        "tags": ["Contact Subject"],
         "summary": "Delete a Contact Subject by ID",
         "operationId": "deleteContactSubject",
         "parameters": [
@@ -947,8 +931,18 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Contact Subject deleted"
+          "404": {
+            "description": "Contact Subject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": {
+                    "message": "Contact Subject not found"
+                  }
+                }
+              }
+            }
           },
           "403": {
             "description": "Unauthorized",
@@ -963,27 +957,15 @@
               }
             }
           },
-          "404": {
-            "description": "Contact Subject not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "example": {
-                    "message": "Contact Subject not found"
-                  }
-                }
-              }
-            }
+          "204": {
+            "description": "Contact Subject deleted"
           }
         }
       }
     },
     "/api/contact-organizations/{id}": {
       "get": {
-        "tags": [
-          "Contact Organization"
-        ],
+        "tags": ["Contact Organization"],
         "summary": "Get a contact organization by ID",
         "operationId": "getContactOrganizationById",
         "parameters": [
@@ -1037,9 +1019,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Contact Organization"
-        ],
+        "tags": ["Contact Organization"],
         "summary": "Update an existing contact organization",
         "operationId": "updateContactOrganization",
         "parameters": [
@@ -1071,19 +1051,6 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Contact organization updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ContactOrganizationDto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid input"
-          },
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -1096,6 +1063,19 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Contact organization updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactOrganizationDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
           },
           "404": {
             "description": "Contact organizations not found",
@@ -1113,9 +1093,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Contact Organization"
-        ],
+        "tags": ["Contact Organization"],
         "summary": "Delete a contact organization by ID",
         "operationId": "deleteContactOrganization",
         "parameters": [
@@ -1130,9 +1108,6 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Contact organization deleted successfully"
-          },
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -1145,6 +1120,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Contact organization deleted successfully"
           },
           "404": {
             "description": "Contact organizations not found",
@@ -1164,9 +1142,7 @@
     },
     "/register": {
       "post": {
-        "tags": [
-          "Account"
-        ],
+        "tags": ["Account"],
         "summary": "Register a new user.",
         "operationId": "register",
         "requestBody": {
@@ -1186,16 +1162,6 @@
           "required": true
         },
         "responses": {
-          "201": {
-            "description": "User successfully registered",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Validation failed",
             "content": {
@@ -1221,15 +1187,23 @@
                 }
               }
             }
+          },
+          "201": {
+            "description": "User successfully registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
           }
         }
       }
     },
     "/login": {
       "post": {
-        "tags": [
-          "Account"
-        ],
+        "tags": ["Account"],
         "summary": "User login to get access token.",
         "operationId": "login",
         "requestBody": {
@@ -1253,9 +1227,6 @@
               }
             }
           },
-          "401": {
-            "description": "Invalid credentials"
-          },
           "500": {
             "description": "Internal server error",
             "content": {
@@ -1268,28 +1239,19 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Invalid credentials"
           }
         }
       }
     },
     "/api/subjects": {
       "get": {
-        "tags": [
-          "Subject"
-        ],
+        "tags": ["Subject"],
         "summary": "Get all subjects",
         "operationId": "getAllSubjects",
         "responses": {
-          "200": {
-            "description": "Found the subjects",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubjectDto"
-                }
-              }
-            }
-          },
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -1302,13 +1264,21 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Found the subjects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectDto"
+                }
+              }
+            }
           }
         }
       },
       "post": {
-        "tags": [
-          "Subject"
-        ],
+        "tags": ["Subject"],
         "summary": "Create a new subject",
         "operationId": "createSubject",
         "requestBody": {
@@ -1325,6 +1295,19 @@
           "required": true
         },
         "responses": {
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": {
+                    "message": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Subject created",
             "content": {
@@ -1337,7 +1320,16 @@
           },
           "400": {
             "description": "Invalid input"
-          },
+          }
+        }
+      }
+    },
+    "/api/organizations": {
+      "get": {
+        "tags": ["Organization"],
+        "summary": "Get all organizations",
+        "operationId": "getAllOrganizations",
+        "responses": {
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -1350,18 +1342,7 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/organizations": {
-      "get": {
-        "tags": [
-          "Organization"
-        ],
-        "summary": "Get all organizations",
-        "operationId": "getAllOrganizations",
-        "responses": {
+          },
           "200": {
             "description": "List of all organizations",
             "content": {
@@ -1374,26 +1355,11 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "example": {
-                    "message": "Unauthorized"
-                  }
-                }
-              }
-            }
           }
         }
       },
       "post": {
-        "tags": [
-          "Organization"
-        ],
+        "tags": ["Organization"],
         "summary": "Create a new organization",
         "operationId": "createOrganization",
         "requestBody": {
@@ -1410,12 +1376,15 @@
           "required": true
         },
         "responses": {
-          "201": {
-            "description": "Organization created successfully",
+          "403": {
+            "description": "Unauthorized",
             "content": {
-              "application/hal+json": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrganizationDto"
+                  "type": "string",
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -1430,15 +1399,12 @@
               }
             }
           },
-          "403": {
-            "description": "Unauthorized",
+          "201": {
+            "description": "Organization created successfully",
             "content": {
-              "application/json": {
+              "application/hal+json": {
                 "schema": {
-                  "type": "string",
-                  "example": {
-                    "message": "Unauthorized"
-                  }
+                  "$ref": "#/components/schemas/OrganizationDto"
                 }
               }
             }
@@ -1448,9 +1414,7 @@
     },
     "/api/contacts": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Get all contacts",
         "operationId": "getAllContacts",
         "responses": {
@@ -1483,9 +1447,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Create a new contact",
         "operationId": "createContact",
         "requestBody": {
@@ -1505,6 +1467,19 @@
           "required": true
         },
         "responses": {
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": {
+                    "message": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
           "201": {
             "description": "Contact created successfully",
             "content": {
@@ -1524,7 +1499,16 @@
                 }
               }
             }
-          },
+          }
+        }
+      }
+    },
+    "/api/contact-subjects": {
+      "get": {
+        "tags": ["Contact Subject"],
+        "summary": "Get all Contact Subject",
+        "operationId": "getAllContactSubjects",
+        "responses": {
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -1537,18 +1521,7 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/contact-subjects": {
-      "get": {
-        "tags": [
-          "Contact Subject"
-        ],
-        "summary": "Get all Contact Subject",
-        "operationId": "getAllContactSubjects",
-        "responses": {
+          },
           "200": {
             "description": "Found the Contact Subject",
             "content": {
@@ -1558,26 +1531,11 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "example": {
-                    "message": "Unauthorized"
-                  }
-                }
-              }
-            }
           }
         }
       },
       "post": {
-        "tags": [
-          "Contact Subject"
-        ],
+        "tags": ["Contact Subject"],
         "summary": "Create a new Contact Subject",
         "operationId": "createContactSubject",
         "requestBody": {
@@ -1595,18 +1553,15 @@
           "required": true
         },
         "responses": {
-          "201": {
-            "description": "Contact Subject created",
+          "404": {
+            "description": "Contact not found.",
             "content": {
-              "application/json": {
+              "application/hal+json": {
                 "schema": {
                   "$ref": "#/components/schemas/ContactSubjectDto"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Invalid input"
           },
           "403": {
             "description": "Unauthorized",
@@ -1621,24 +1576,25 @@
               }
             }
           },
-          "404": {
-            "description": "Contact not found.",
+          "201": {
+            "description": "Contact Subject created",
             "content": {
-              "application/hal+json": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ContactSubjectDto"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid input"
           }
         }
       }
     },
     "/api/contact-organizations": {
       "get": {
-        "tags": [
-          "Contact Organization"
-        ],
+        "tags": ["Contact Organization"],
         "summary": "Get all contact organizations",
         "operationId": "getAllContactOrganizations",
         "responses": {
@@ -1668,9 +1624,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Contact Organization"
-        ],
+        "tags": ["Contact Organization"],
         "summary": "Create a new contact organization",
         "operationId": "createContactOrganization",
         "requestBody": {
@@ -1691,18 +1645,15 @@
           "required": true
         },
         "responses": {
-          "201": {
-            "description": "Contact organization created successfully",
+          "404": {
+            "description": "Contact not found.",
             "content": {
-              "application/json": {
+              "application/hal+json": {
                 "schema": {
                   "$ref": "#/components/schemas/ContactOrganizationDto"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Invalid input"
           },
           "403": {
             "description": "Unauthorized",
@@ -1717,24 +1668,25 @@
               }
             }
           },
-          "404": {
-            "description": "Contact not found.",
+          "201": {
+            "description": "Contact organization created successfully",
             "content": {
-              "application/hal+json": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ContactOrganizationDto"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid input"
           }
         }
       }
     },
     "/api/contacts/search": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Search contact by criteria",
         "operationId": "searchContacts",
         "parameters": [
@@ -1752,12 +1704,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "KETUA",
-                "WAKIL_KETUA",
-                "BENDAHARA",
-                "PJ_MATKUL"
-              ]
+              "enum": ["KETUA", "WAKIL_KETUA", "BENDAHARA", "PJ_MATKUL"]
             }
           },
           {
@@ -1774,10 +1721,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "MAHASISWA",
-                "DOSEN"
-              ]
+              "enum": ["MAHASISWA", "DOSEN"]
             }
           },
           {
@@ -1798,19 +1742,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Contact found",
-            "content": {
-              "application/hal+json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ContactDto"
-                  }
-                }
-              }
-            }
-          },
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -1836,15 +1767,26 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Contact found",
+            "content": {
+              "application/hal+json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContactDto"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/user/{userId}": {
       "delete": {
-        "tags": [
-          "Account"
-        ],
+        "tags": ["Account"],
         "summary": "Delete a user account by user ID.",
         "operationId": "deleteUser",
         "parameters": [
@@ -1859,19 +1801,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "User deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "example": {
-                    "message": "User deleted successfully"
-                  }
-                }
-              }
-            }
-          },
           "403": {
             "description": "Unauthorized",
             "content": {
@@ -1880,6 +1809,19 @@
                   "type": "string",
                   "example": {
                     "message": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "User deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": {
+                    "message": "User deleted successfully"
                   }
                 }
               }
@@ -1904,26 +1846,14 @@
   },
   "components": {
     "schemas": {
-      "ContactOrganization": {
+      "Subject": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int64"
           },
-          "kelas": {
-            "type": "string"
-          },
-          "jabatan": {
-            "type": "string",
-            "enum": [
-              "KETUA",
-              "WAKIL_KETUA",
-              "BENDAHARA",
-              "PJ_MATKUL"
-            ]
-          },
-          "periodeJabatan": {
+          "subjectName": {
             "type": "string"
           }
         }
@@ -1940,23 +1870,27 @@
           }
         }
       },
-      "Subject": {
+      "ContactOrganization": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int64"
           },
-          "subjectName": {
+          "kelas": {
+            "type": "string"
+          },
+          "jabatan": {
+            "type": "string",
+            "enum": ["KETUA", "WAKIL_KETUA", "BENDAHARA", "PJ_MATKUL"]
+          },
+          "periodeJabatan": {
             "type": "string"
           }
         }
       },
       "ChangePasswordRequest": {
-        "required": [
-          "newPassword",
-          "oldPassword"
-        ],
+        "required": ["newPassword", "oldPassword"],
         "type": "object",
         "properties": {
           "oldPassword": {
@@ -1980,10 +1914,7 @@
         }
       },
       "UserDto": {
-        "required": [
-          "name",
-          "password"
-        ],
+        "required": ["name", "password"],
         "type": "object",
         "properties": {
           "id": {
@@ -2001,12 +1932,12 @@
           },
           "role": {
             "type": "string",
-            "enum": [
-              "ROLE_USER",
-              "ROLE_ADMIN"
-            ]
+            "enum": ["ROLE_USER", "ROLE_ADMIN"]
           },
           "enabled": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           },
           "authorities": {
@@ -2018,22 +1949,16 @@
           "username": {
             "type": "string"
           },
-          "accountNonLocked": {
+          "accountNonExpired": {
             "type": "boolean"
           },
           "credentialsNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonExpired": {
             "type": "boolean"
           }
         }
       },
       "ContactDto": {
-        "required": [
-          "fullName",
-          "phone"
-        ],
+        "required": ["fullName", "phone"],
         "type": "object",
         "properties": {
           "id": {
@@ -2051,10 +1976,7 @@
           },
           "contactType": {
             "type": "string",
-            "enum": [
-              "MAHASISWA",
-              "DOSEN"
-            ]
+            "enum": ["MAHASISWA", "DOSEN"]
           },
           "contactOrganizations": {
             "uniqueItems": true,
@@ -2073,9 +1995,7 @@
         }
       },
       "SubjectDto": {
-        "required": [
-          "subjectName"
-        ],
+        "required": ["subjectName"],
         "type": "object",
         "properties": {
           "id": {
@@ -2094,9 +2014,7 @@
         }
       },
       "OrganizationDto": {
-        "required": [
-          "organizationName"
-        ],
+        "required": ["organizationName"],
         "type": "object",
         "properties": {
           "id": {
@@ -2151,12 +2069,7 @@
           },
           "jabatan": {
             "type": "string",
-            "enum": [
-              "KETUA",
-              "WAKIL_KETUA",
-              "BENDAHARA",
-              "PJ_MATKUL"
-            ]
+            "enum": ["KETUA", "WAKIL_KETUA", "BENDAHARA", "PJ_MATKUL"]
           },
           "periodeJabatan": {
             "type": "string"
@@ -2164,10 +2077,7 @@
         }
       },
       "AuthRequest": {
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "type": "object",
         "properties": {
           "email": {
@@ -2211,15 +2121,15 @@
               "$ref": "#/components/schemas/SortObject"
             }
           },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
           },
           "pageable": {
             "$ref": "#/components/schemas/PageableObject"
@@ -2245,9 +2155,6 @@
           "unpaged": {
             "type": "boolean"
           },
-          "paged": {
-            "type": "boolean"
-          },
           "pageNumber": {
             "type": "integer",
             "format": "int32"
@@ -2255,6 +2162,9 @@
           "pageSize": {
             "type": "integer",
             "format": "int32"
+          },
+          "paged": {
+            "type": "boolean"
           }
         }
       },
@@ -2282,7 +2192,7 @@
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
-        "description": "Input token sebagai 'Bearer <token>'",
+        "description": "Input token sebagai 'Bearer \u003Ctoken\u003E'",
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }

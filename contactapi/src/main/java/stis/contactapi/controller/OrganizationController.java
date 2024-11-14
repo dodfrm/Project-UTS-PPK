@@ -88,8 +88,8 @@ public class OrganizationController {
             @ApiResponse(responseCode = "404", description = "Organization not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Organization not found\"}")))
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrganization(@PathVariable Long id) {
+    public ResponseEntity<String> deleteOrganization(@PathVariable Long id) {
         boolean isDeleted = organizationService.deleteOrganization(id);
-        return isDeleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        return isDeleted ? ResponseEntity.ok("Organization deleted successfully") : ResponseEntity.notFound().build();
     }
 }
