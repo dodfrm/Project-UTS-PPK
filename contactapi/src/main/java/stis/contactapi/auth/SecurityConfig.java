@@ -46,12 +46,13 @@ public class SecurityConfig {
                         .requestMatchers("/register", "/login", "/docs/**").permitAll()
 
                         // Akses READ untuk pengguna biasa
-                        .requestMatchers(HttpMethod.PUT, "/users/change-password/*", "/profile/*")
+                        .requestMatchers(HttpMethod.PUT, "/user/change-password/*", "/user-profile/*")
                         .hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/user/*").hasAnyRole("USER", "ADMIN")
 
                         // Akses hanya untuk admin pada endpoint spesifik
-                        .requestMatchers("/users/**", "/api/**").hasRole("ADMIN")
+                        .requestMatchers("/user/**", "/api/**").hasRole("ADMIN")
 
                         // Izin autentikasi untuk semua request lainnya
                         .anyRequest().authenticated());

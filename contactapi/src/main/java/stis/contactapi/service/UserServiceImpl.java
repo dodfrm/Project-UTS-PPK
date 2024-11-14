@@ -106,6 +106,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUser(Long userId) {
+        // Dapatkan ID pengguna yang sedang login
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication.getName();
+
+        // Temukan data user yang sedang login
+        User currentUser = userRepository.findByEmail(currentUserEmail);
+        if (currentUserEmail == null) {
+            throw new RuntimeException("User not found");
+        }
+        // Validasi akses: hanya pemilik akun atau admin yang bisa mengganti password
+        if (!currentUser.getId().equals(userId) && !currentUser.getRole().equals(ERole.ROLE_ADMIN)) {
+            throw new RuntimeException("Unauthorized to change password");
+        }
         if (userRepository.existsById(userId)) {
             userRepository.deleteById(userId);
             return true;

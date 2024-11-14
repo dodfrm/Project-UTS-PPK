@@ -2,6 +2,7 @@ package stis.contactapi.dto;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class OrganizationDto {
     private long id;
+    @NotBlank
     private String organizationName;
     private List<ContactDto> contacts;
 }

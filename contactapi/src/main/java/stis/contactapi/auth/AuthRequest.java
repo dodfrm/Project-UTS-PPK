@@ -14,8 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AuthRequest {
     @NotNull
-    @Email
-    @Size(max = 50)
+    @Email(message = "email tidak valid")
     private String email;
     @NotNull
     @Size(max = 16)

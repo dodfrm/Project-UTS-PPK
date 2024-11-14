@@ -5,6 +5,8 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,8 +19,11 @@ import stis.contactapi.entity.ERole;
 @AllArgsConstructor
 public class UserDto implements UserDetails {
     private Long id;
+    @NotBlank
     private String name;
+    @Email
     private String email;
+    @NotBlank
     private String password;
     private ERole role;
 

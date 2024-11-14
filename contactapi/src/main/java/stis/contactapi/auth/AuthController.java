@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import stis.contactapi.dto.UserDto;
 import stis.contactapi.service.UserService;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "Account")
 public class AuthController {
         @Autowired
         AuthenticationManager authManager;
@@ -35,12 +37,18 @@ public class AuthController {
         UserService userService;
 
         @Operation(summary = "Register a new user.")
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User to register with details such as name, email, and password. The request must contain valid values.", required = true, content = @Content(mediaType = "application/json", schema = @Schema(example = "{\n"
+                        +
+                        "  \"name\": \"Dodi Firmansyah\",\n" +
+                        "  \"email\": \"222212572@stis.ac.id\",\n" +
+                        "  \"password\": \"utsppk2024\"\n" +
+                        "}")))
         @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "User successfully registered", content = {
+                        @ApiResponse(responseCode = "201", description = "User successfully registered", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class)) }),
                         @ApiResponse(responseCode = "400", description = "Validation failed", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(example = "{\"error\": \"Validation error details\"}")) }),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"error\": \"Internal server error\"}")))
         })
         @PostMapping("/register")
         public ResponseEntity<?> register(@RequestBody UserDto request) {
@@ -53,7 +61,7 @@ public class AuthController {
                         @ApiResponse(responseCode = "200", description = "Email and access token", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class)) }),
                         @ApiResponse(responseCode = "401", description = "Invalid credentials", content = @Content),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content) })
+                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"error\": \"Internal server error\"}"))) })
 
         @PostMapping("/login")
         public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {
@@ -76,23 +84,31 @@ public class AuthController {
                         @ApiResponse(responseCode = "200", description = "User profile retrieved successfully", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
                         }),
-                        @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+                        @ApiResponse(responseCode = "403", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Unauthorized\"}"))),
+                        @ApiResponse(responseCode = "404", description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"User not found\"}")))
         })
-        @GetMapping("/profile/{userId}")
+        @GetMapping("/user-profile/{userId}")
         public ResponseEntity<UserDto> getUserProfile(@PathVariable Long userId) {
                 UserDto user = userService.getUserById(userId);
                 return ResponseEntity.ok(user);
         }
 
         @Operation(summary = "Update user profile information.")
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User to register with details such as name, email, and password. The request must contain valid values.", required = true, content = @Content(mediaType = "application/json", schema = @Schema(example = "{\n"
+                        +
+                        "  \"name\": \"Dodi Firmansyah\",\n" +
+                        "  \"email\": \"222212572@stis.ac.id\",\n" +
+                        "  \"role\": \"ROLE_USER/ROLE_ADMIN\"\n" +
+                        "}")))
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "User profile updated successfully", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
                         }),
-                        @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
-                        @ApiResponse(responseCode = "400", description = "Invalid data provided", content = @Content)
+                        @ApiResponse(responseCode = "403", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Unauthorized\"}"))),
+                        @ApiResponse(responseCode = "404", description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"User not found\"}"))),
+                        @ApiResponse(responseCode = "400", description = "Invalid password data provided", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"error\": \"Invalid password data provided\"}")))
         })
-        @PutMapping("/profile/{userId}")
+        @PutMapping("/user-profile/{userId}")
         public ResponseEntity<UserDto> updateUserProfile(@PathVariable Long userId, @RequestBody UserDto userDto) {
                 UserDto updatedUser = userService.updateUserProfile(userId, userDto);
                 return ResponseEntity.ok(updatedUser);
@@ -103,10 +119,11 @@ public class AuthController {
                         @ApiResponse(responseCode = "200", description = "Password changed successfully", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Password changed successfully\"}"))
                         }),
-                        @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
-                        @ApiResponse(responseCode = "400", description = "Invalid password data provided", content = @Content)
+                        @ApiResponse(responseCode = "403", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Unauthorized\"}"))),
+                        @ApiResponse(responseCode = "404", description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"User not found\"}"))),
+                        @ApiResponse(responseCode = "400", description = "Invalid password data provided", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"error\": \"Invalid password data provided\"}")))
         })
-        @PutMapping("/users/change-password/{userId}")
+        @PutMapping("/user/change-password/{userId}")
         public ResponseEntity<String> changePassword(@PathVariable Long userId,
                         @RequestBody ChangePasswordRequest passwordDto) {
                 userService.changePassword(userId, passwordDto.getOldPassword(), passwordDto.getNewPassword());
@@ -118,9 +135,10 @@ public class AuthController {
                         @ApiResponse(responseCode = "200", description = "User deleted successfully", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"User deleted successfully\"}"))
                         }),
-                        @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+                        @ApiResponse(responseCode = "403", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Unauthorized\"}"))),
+                        @ApiResponse(responseCode = "404", description = "User not found", content = @Content(mediaType = "application/json", schema = @Schema(example = "{\"message\": \"User not found\"}")))
         })
-        @DeleteMapping("/users/{userId}")
+        @DeleteMapping("/user/{userId}")
         public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
                 boolean isDeleted = userService.deleteUser(userId);
                 if (isDeleted) {

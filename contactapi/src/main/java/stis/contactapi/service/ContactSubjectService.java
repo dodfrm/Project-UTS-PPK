@@ -10,6 +10,7 @@ import stis.contactapi.dto.ContactSubjectDto;
 import stis.contactapi.entity.Contact;
 import stis.contactapi.entity.ContactSubject;
 import stis.contactapi.entity.ECType;
+import stis.contactapi.entity.EJabatan;
 import stis.contactapi.mapper.ContactSubjectMapper;
 import stis.contactapi.repository.ContactRepository;
 import stis.contactapi.repository.ContactSubjectRepository;
@@ -44,14 +45,23 @@ public class ContactSubjectService {
 
     @Transactional
     public ContactSubjectDto createContactSubject(ContactSubjectDto contactSubjectDto) {
-        // Check if the contact exists and has a contactType of DOSEN
+        // Fetch the contact and check if it exists
         Contact contact = contactRepository.findById(contactSubjectDto.getContactId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contact not found"));
 
-        if (contact.getContactType() != ECType.DOSEN) {
+        // Check if the contact is either a DOSEN or a MAHASISWA with a PJ_MATKUL role
+        boolean isAllowed = contact.getContactType() == ECType.DOSEN ||
+                (contact.getContactType() == ECType.MAHASISWA &&
+                        contact.getContactOrganizations().stream()
+                                .anyMatch(org -> org.getJabatan() == EJabatan.PJ_MATKUL));
+
+        // If neither condition is met, throw an error
+        if (!isAllowed) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Only contacts with contactType 'DOSEN' can be associated with an Subject.");
+                    "Only contacts with contactType 'DOSEN' or 'MAHASISWA' with a role of 'PJ_MATKUL' can be associated with a Subject.");
         }
+
+        // Map the DTO to entity, save the entity, and return the mapped DTO
         ContactSubject contactSubject = contactSubjectMapper.toEntity(contactSubjectDto);
         contactSubject = contactSubjectRepository.save(contactSubject);
         return contactSubjectMapper.toDto(contactSubject);
